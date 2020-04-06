@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  
+</head>
+
+<body>
+ <div class="login">
+  <h1>Generate Lyric Verse In The Style Of</h1>
+  <br>
+  <br>
+  <form action="{{ url_for('generate')}}"method="post">
+    <input type="text" name="numchar" placeholder="Number of Characters you want to generate" required="required" />
+    <input type="text" name="artistname" placeholder="Name Of Artist?" required="required" />
+    <button type="submit" class="btn btn-primary btn-block btn-large">Begin To Feel Like a SongBot</button>
+  </form>
+   <br>
+   <br>
+   {{ output }}
+ </div>
+</body>
+
+</html>
