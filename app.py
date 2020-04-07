@@ -11,7 +11,7 @@ from flask import Flask, request,jsonify,render_template
 app = Flask(__name__)
 
 def preprocess_test_load_model(artist):
-	textFileName = 'Merged\\%s.txt'%artist
+	textFileName = 'Merged/%s.txt'%artist
 	raw_text = open(textFileName,'r',encoding='UTF-8').read()
 	raw_text = raw_text.lower()
 
@@ -43,7 +43,7 @@ def preprocess_test_load_model(artist):
 	model.add(Dense(y.shape[1], activation='softmax'))
 	model.compile(loss='categorical_crossentropy', optimizer='adam')
 
-	filename = "Weights\\%s.hdf5"%artist
+	filename = "Weights/%s.hdf5"%artist
 	model.load_weights(filename)
 	return char_to_int,int_to_char,n_vocab,dataX,model
 
