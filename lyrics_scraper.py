@@ -34,7 +34,7 @@ def scraper(artist_name):
 if __name__ == '__main__':
     artist_name = input('Enter Artist Name:\n').lower()
 
-    mainpath = os.path.abspath('D:/Trash_Lyrics/Artists_Songs')
+    mainpath = os.path.abspath('Artists_Songs')
     artist_path = os.path.join(mainpath,'%s'%artist_name)
     lyric_list = scraper(artist_name)
    
