@@ -3,8 +3,9 @@ import pandas as pd
 import sys
 import os 
 import json
+import streamlit as st
 from tensorflow.python.keras.models import load_model
-from flask import Flask, request,render_template
+#from flask import Flask, request,render_template
 
 artists = os.listdir('Artists_Songs')
 model={key: None for key in artists}
@@ -13,7 +14,7 @@ int_to_char=json.load(open("jsons/itc.json","r"))
 n_vocab=json.load(open("jsons/nvocab.json","r"))
 dataX=json.load(open("jsons/datax.json","r"))
 
-app = Flask(__name__)
+#app = Flask(__name__)
 
 def create_model(artist):
 	model=load_model('Weights/%s.hdf5'%artist)
@@ -43,18 +44,35 @@ for i in artists:
 def home():
 	return render_template('index.html')
 
-@app.route("/generate",methods=["POST"])
-def generate():
-	numchar = request.form['numchar']
-	artist_name = request.form['artistname']
-	i = artist_name.lower()
-	if artist_name.lower() not in artists:
-		output_text = "SORRY Model not trained to understand {}'s style :/".format(artist_name)
-	else:
-		output = output_func(char_to_int[i],int_to_char[i],n_vocab[i],dataX[i],model[i],numchar)
-		output_text = 'Verse generated in the style of {} is:...> {}'.format(artist_name,output)
+# @app.route("/generate",methods=["POST"])
+# def generate():
+# 	numchar = request.form['numchar']
+# 	artist_name = request.form['artistname']
+# 	i = artist_name.lower()
+# 	if artist_name.lower() not in artists:
+# 		output_text = "SORRY Model not trained to understand {}'s style :/".format(artist_name)
+# 	else:
+# 		output = output_func(char_to_int[i],int_to_char[i],n_vocab[i],dataX[i],model[i],numchar)
+# 		output_text = 'Verse generated in the style of {} is:...> {}'.format(artist_name,output)
 	
-	return render_template('index.html', output = output_text)
+# 	return render_template('index.html', output = output_text)
 
-if __name__ == "__main__":
-	app.run("0.0.0.0",port=8080)
+def generate():
+    numchar = st.text_input('Number of characters to generate:')
+    artist_name = st.text_input('Artist name:')
+    i = artist_name.lower()
+    if artist_name.lower() not in artists:
+        output_text = "SORRY Model not trained to understand {}'s style :/".format(artist_name)
+    else:
+        output = output_func(char_to_int[i], int_to_char[i], n_vocab[i], dataX[i], model[i], numchar)
+        output_text = 'Verse generated in the style of {} is:...> {}'.format(artist_name, output)
+
+    return output_text
+
+def main():
+    st.title('Lyrics Generator')
+    output_text = generate()
+    st.write(output_text)
+
+# if __name__ == "__main__":
+# 	app.run("0.0.0.0",port=8080)
